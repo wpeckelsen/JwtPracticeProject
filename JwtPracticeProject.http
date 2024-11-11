@@ -1,0 +1,6 @@
+@JwtPracticeProject_HostAddress = http://localhost:5230
+
+GET {{JwtPracticeProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
