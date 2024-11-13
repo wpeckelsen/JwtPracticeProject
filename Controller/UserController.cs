@@ -25,7 +25,7 @@ namespace JwtPracticeProject.Controller
         // get method
 
         [HttpGet("{id}")]
-        // public async Task<IActionResult<User>> GetUserById(int id)
+
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             var foundUser = await _userService.GetUserByIdAsync(id);
@@ -38,36 +38,34 @@ namespace JwtPracticeProject.Controller
 
         }
         // post
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(User user)
+        [HttpPost("create-user")]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUser createUser)
         {
-            var createdUser = await _userService.CreateUserAsync(user);
-            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, null);
+            User user = await _userService.CreateUserAsync(createUser.Username, createUser.PlainPassword);
+
+            CreatedUser createdUser = new CreatedUser
+            {
+                Username = user.Username,
+                Role = user.Role,
+                Id = user.Id                                    
+            };
+
+
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
         }
 
 
         // login
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
+            var token = await _userService.Authenticate(model.Email, model.Password);
+            if (token == null)
+            { return Unauthorized(); }
 
-            var user = await _userService.(model.Username, model.Password);
+            // var token = _userService.GenerateJwtToken(user);  // This method will create the JWT
 
-            if(!user){
-                return Unauthorized();
-            }
-
-            var token = GenerateJwtToken(user);
-            return Ok(new{Token = token});
-
-
-
-            //   var user = await _userService.Authenticate(model.Username, model.Password);
-            // if (user == null)
-            //     return Unauthorized();
-
-            // var token = GenerateJwtToken(user);  // This method will create the JWT
-
-            // return Ok(new { Token = token });
+            return Ok(new { Token = token });
         }
     }
 }

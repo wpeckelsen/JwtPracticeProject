@@ -22,7 +22,7 @@ namespace JwtPracticeProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

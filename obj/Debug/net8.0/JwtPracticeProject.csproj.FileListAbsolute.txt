@@ -141,3 +141,4 @@
 /Users/wessel/vscode/JwtPracticeProject/obj/Debug/net8.0/JwtPracticeProject.pdb
 /Users/wessel/vscode/JwtPracticeProject/obj/Debug/net8.0/JwtPracticeProject.genruntimeconfig.cache
 /Users/wessel/vscode/JwtPracticeProject/obj/Debug/net8.0/ref/JwtPracticeProject.dll
+/Users/wessel/vscode/JwtPracticeProject/bin/Debug/net8.0/BCrypt.Net-Next.dll

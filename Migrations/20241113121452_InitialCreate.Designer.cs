@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JwtPracticeProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241111111740_InitialCreate")]
+    [Migration("20241113121452_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace JwtPracticeProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
