@@ -29,7 +29,7 @@ namespace JwtPracticeProject.Service
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<bool> doesUserExistByEmailAsync(string username)
+        public async Task<bool> doesUserExistByUsernameAsync(string username)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
             return user != null;
@@ -37,10 +37,10 @@ namespace JwtPracticeProject.Service
 
         public async Task<User> CreateUserAsync(string username, string plainPassword)
         {
-            var foundUser = await doesUserExistByEmailAsync(username);
+            var foundUser = await doesUserExistByUsernameAsync(username);
             if (foundUser)
             {
-                throw new Exception("This user already exists!");
+                throw new Exception("this email is already taken.");
             }
             else
             {

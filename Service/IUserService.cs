@@ -6,7 +6,7 @@ public interface IUserService
 {
     Task<User?> GetUserByIdAsync(int id);
     
-    Task<bool> doesUserExistByEmailAsync(string username);
+    Task<bool> doesUserExistByUsernameAsync(string username);
 
     Task<User> CreateUserAsync(string Username, string plainPassword);
     
