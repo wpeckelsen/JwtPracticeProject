@@ -47,16 +47,15 @@ namespace JwtPracticeProject.Service
                 User user = new User
                 {
                     Username = username,
-                    HashedPassword = BCrypt.Net.BCrypt.HashPassword(plainPassword),
-                    Role = "user"
+                    HashedPassword = BCrypt.Net.BCrypt.HashPassword(plainPassword),                    
                 };
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 return user;
             }
-
-
         }
+
+       
 
 
         public string GenerateJwtToken(User user)
@@ -70,15 +69,20 @@ namespace JwtPracticeProject.Service
                 Subject = new ClaimsIdentity(new Claim[]
                 {
             new Claim(ClaimTypes.Name, user.Username),              // Username claim
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) // User ID claim
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // User ID claim
+            new Claim(ClaimTypes.Role, "user"),
+            new Claim(JwtRegisteredClaimNames.Aud, _configuration["Jwt:Audience"]),  // Audience claim
+            new Claim(JwtRegisteredClaimNames.Iss, _configuration["Jwt:Issuer"])     // Issuer claim
+
+
+
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
             string tokenString = tokenHandler.WriteToken(token);
-
             return tokenString;
         }
 

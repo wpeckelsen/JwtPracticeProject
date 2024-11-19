@@ -37,6 +37,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// adds a role based authorization ('role: user' only for now)
+builder.Services.AddAuthorization(options =>
+{
+options.AddPolicy("user", policy => policy.RequireRole("user"));
+});
+
+
 // Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

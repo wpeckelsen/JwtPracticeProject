@@ -1,7 +1,10 @@
-using JwtPracticeProject.Models;
+// using JwtPracticeProject.Models;
 using JwtPracticeProject.Service;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using JwtPracticeProject.Models;
+
 
 namespace JwtPracticeProject.Controller
 {
@@ -15,6 +18,8 @@ namespace JwtPracticeProject.Controller
         private readonly IUserService _userService;
 
 
+
+
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -25,7 +30,6 @@ namespace JwtPracticeProject.Controller
         // get method
 
         [HttpGet("{id}")]
-
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             var foundUser = await _userService.GetUserByIdAsync(id);
@@ -34,6 +38,7 @@ namespace JwtPracticeProject.Controller
             {
                 return NotFound();
             }
+            // else return Ok(foundUser);
             else return Ok(foundUser);
 
         }
@@ -47,12 +52,11 @@ namespace JwtPracticeProject.Controller
             {
                 Username = user.Username,
                 Role = user.Role,
-                Id = user.Id                                    
+                Id = user.Id
             };
-
-
             return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
         }
+
 
 
         // login
@@ -63,9 +67,23 @@ namespace JwtPracticeProject.Controller
             if (token == null)
             { return Unauthorized(); }
 
-            // var token = _userService.GenerateJwtToken(user);  // This method will create the JWT
 
             return Ok(new { Token = token });
+        }
+
+        // protected endpoint for admin only
+        //         public IActionResult GetAdminData()
+
+        // public IActionResult GetAdminData(){
+
+
+        // }
+        [HttpGet("user-data")]
+        [Authorize(Roles = "user")]
+        public IActionResult GetUserData()
+        {
+            var userData = new { Message = "This is protected data for Users only." };
+            return Ok(userData);
         }
     }
 }
