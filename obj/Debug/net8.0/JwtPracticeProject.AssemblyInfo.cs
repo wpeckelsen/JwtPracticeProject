@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JwtPracticeProject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0955b527f4c0774d23fcaf544a8840891851a4d4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b0756d198c7a0ca15a0537783b8d92a324893aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("JwtPracticeProject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JwtPracticeProject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

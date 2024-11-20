@@ -11,7 +11,7 @@ namespace JwtPracticeProject.Service
 
         Task<User> CreateUserAsync(string Username, string plainPassword);
         
-        // Task<User> CreateUserAndRoleAsync(string username, string plainPassword, string role);
+        Task<CreatedUser?> GetCreatedUserAsync(int id);
 
         string GenerateJwtToken(User user);
 

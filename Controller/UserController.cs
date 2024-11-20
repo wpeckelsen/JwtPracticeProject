@@ -30,16 +30,15 @@ namespace JwtPracticeProject.Controller
         // get method
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<CreatedUser>> GetUserById(int id)
         {
-            var foundUser = await _userService.GetUserByIdAsync(id);
+            var foundCreatedUser = await _userService.GetCreatedUserAsync(id);
 
-            if (foundUser == null)
+            if (foundCreatedUser == null)
             {
                 return NotFound();
-            }
-            // else return Ok(foundUser);
-            else return Ok(foundUser);
+            }            
+            else return Ok(foundCreatedUser);
 
         }
         // post
@@ -71,13 +70,7 @@ namespace JwtPracticeProject.Controller
             return Ok(new { Token = token });
         }
 
-        // protected endpoint for admin only
-        //         public IActionResult GetAdminData()
-
-        // public IActionResult GetAdminData(){
-
-
-        // }
+   
         [HttpGet("user-data")]
         [Authorize(Roles = "user")]
         public IActionResult GetUserData()

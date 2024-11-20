@@ -29,6 +29,21 @@ namespace JwtPracticeProject.Service
             return await _context.Users.FindAsync(id);
         }
 
+        public async Task<CreatedUser?> GetCreatedUserAsync(int id)
+        {
+            var foundUser = await _context.Users.FindAsync(id);
+            if (foundUser == null)
+            {
+                return null;
+            }
+            else return new CreatedUser
+            {
+                Id = foundUser.Id,
+                Username = foundUser.Username,
+                Role = foundUser.Role
+            };
+        }
+
         public async Task<bool> doesUserExistByUsernameAsync(string username)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
@@ -47,7 +62,8 @@ namespace JwtPracticeProject.Service
                 User user = new User
                 {
                     Username = username,
-                    HashedPassword = BCrypt.Net.BCrypt.HashPassword(plainPassword),                    
+                    HashedPassword = BCrypt.Net.BCrypt.HashPassword(plainPassword),
+                    Role = "XYZ"
                 };
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
@@ -55,7 +71,7 @@ namespace JwtPracticeProject.Service
             }
         }
 
-       
+
 
 
         public string GenerateJwtToken(User user)
@@ -70,7 +86,7 @@ namespace JwtPracticeProject.Service
                 {
             new Claim(ClaimTypes.Name, user.Username),              // Username claim
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // User ID claim
-            new Claim(ClaimTypes.Role, "user"),
+            new Claim(ClaimTypes.Role, user.Role),
             new Claim(JwtRegisteredClaimNames.Aud, _configuration["Jwt:Audience"]),  // Audience claim
             new Claim(JwtRegisteredClaimNames.Iss, _configuration["Jwt:Issuer"])     // Issuer claim
 
